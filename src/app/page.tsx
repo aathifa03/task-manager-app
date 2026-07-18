@@ -1,65 +1,213 @@
-import Image from "next/image";
-//hi this the maim
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+
+
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-1/2 top-0 h-125 w-175 -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
+        <div className="absolute right-0 top-100 h-100 w-100 rounded-full bg-violet-600/20 blur-3xl" />
+      </div>
+
+      <Navbar />
+
+      <section className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-20 sm:px-8 lg:grid-cols-2 lg:pb-28 lg:pt-28">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-semibold text-blue-200">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            Better teamwork starts here
+          </div>
+
+          <h1 className="mt-7 max-w-3xl text-5xl font-black leading-tight tracking-tight sm:text-6xl">
+            Plan less.
+            <span className="block bg-linear-to-r from-blue-300 via-cyan-200 to-violet-300 bg-clip-text text-transparent">
+              Achieve more.
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
+            TaskFlow helps teams create, assign, and complete meaningful work
+            without losing track of what matters.
           </p>
+
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/register"
+              className="rounded-xl bg-blue-500 px-6 py-3.5 text-center font-bold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
+            >
+              Create free account →
+            </Link>
+
+            <a
+              href="#features"
+              className="rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-center font-bold text-white transition hover:bg-white/10"
+            >
+              Explore features
+            </a>
+          </div>
+
+          <div className="mt-10 flex flex-wrap gap-6 text-sm text-slate-300">
+            <span>✓ Role-based access</span>
+            <span>✓ Task tracking</span>
+            <span>✓ Secure JWT login</span>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="relative mx-auto w-full max-w-xl">
+          <div className="absolute -inset-4 rounded-3xl bg-linear-to-r from-blue-500/25 to-violet-500/25 blur-2xl" />
+
+          <div className="relative rounded-3xl border border-white/15 bg-slate-900/80 p-4 shadow-2xl backdrop-blur">
+            <div className="flex items-center gap-2 border-b border-white/10 px-2 pb-4">
+              <span className="h-3 w-3 rounded-full bg-red-400" />
+              <span className="h-3 w-3 rounded-full bg-amber-400" />
+              <span className="h-3 w-3 rounded-full bg-emerald-400" />
+              <span className="ml-3 text-xs text-slate-400">TaskFlow Dashboard</span>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl bg-blue-500 p-4">
+                <p className="text-xs text-blue-100">Total tasks</p>
+                <p className="mt-2 text-3xl font-black">24</p>
+                <p className="mt-2 text-xs text-blue-100">↑ 12% this week</p>
+              </div>
+
+              <div className="rounded-2xl bg-violet-500 p-4">
+                <p className="text-xs text-violet-100">Completed</p>
+                <p className="mt-2 text-3xl font-black">18</p>
+                <p className="mt-2 text-xs text-violet-100">75% progress</p>
+              </div>
+
+              <div className="rounded-2xl bg-slate-800 p-4">
+                <p className="text-xs text-slate-400">Pending</p>
+                <p className="mt-2 text-3xl font-black">6</p>
+                <p className="mt-2 text-xs text-amber-300">Needs attention</p>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl bg-slate-800/80 p-4">
+              <div className="flex items-center justify-between">
+                <h2 className="font-bold">Today’s tasks</h2>
+                <span className="rounded-full bg-blue-500/20 px-3 py-1 text-xs text-blue-200">
+                  3 tasks
+                </span>
+              </div>
+
+              <div className="mt-4 space-y-3">
+                {[
+                  ["Design login screen", "In progress", "bg-blue-400"],
+                  ["Connect Register API", "Pending", "bg-amber-400"],
+                  ["Write Playwright tests", "Done", "bg-emerald-400"],
+                ].map(([task, status, color]) => (
+                  <div
+                    key={task}
+                    className="flex items-center justify-between rounded-xl bg-white/5 p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`h-2.5 w-2.5 rounded-full ${color}`} />
+                      <span className="text-sm font-medium">{task}</span>
+                    </div>
+                    <span className="text-xs text-slate-400">{status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section id="features" className="border-y border-white/10 bg-white/5">
+        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+          <p className="text-center text-sm font-bold uppercase tracking-widest text-blue-300">
+            Everything you need
+          </p>
+
+          <h2 className="mt-4 text-center text-3xl font-bold sm:text-4xl">
+            Work clearly. Move quickly.
+          </h2>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: "✦",
+                title: "Easy task management",
+                text: "Create tasks, set descriptions, assign team members, and track progress in one place.",
+              },
+              {
+                icon: "◉",
+                title: "Role-based dashboards",
+                text: "Assigners manage every task while Viewers focus only on their assigned work.",
+              },
+              {
+                icon: "⌁",
+                title: "Secure access",
+                text: "JWT authentication ensures every user sees only what they are permitted to access.",
+              },
+            ].map((feature) => (
+              <article
+                key={feature.title}
+                className="rounded-2xl border border-white/10 bg-slate-900 p-7 transition hover:-translate-y-1 hover:border-blue-400/40"
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-blue-500/15 text-2xl text-blue-300">
+                  {feature.icon}
+                </div>
+                <h3 className="mt-6 text-xl font-bold">{feature.title}</h3>
+                <p className="mt-3 leading-7 text-slate-400">{feature.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-widest text-blue-300">
+              Simple workflow
+            </p>
+            <h2 className="mt-4 text-3xl font-bold sm:text-4xl">
+              From assignment to achievement.
+            </h2>
+          </div>
+
+          <div className="space-y-5">
+            {[
+              ["01", "Create an account", "Register as an Assigner or Viewer."],
+              ["02", "Organize your work", "Assign tasks with clear titles and descriptions."],
+              ["03", "Track progress", "Complete tasks and see progress update instantly."],
+            ].map(([number, title, text]) => (
+              <div key={number} className="flex gap-5 rounded-2xl border border-white/10 bg-white/5 p-5">
+                <span className="text-xl font-black text-blue-300">{number}</span>
+                <div>
+                  <h3 className="font-bold">{title}</h3>
+                  <p className="mt-1 text-sm text-slate-400">{text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="roles" className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
+        <div className="rounded-3xl bg-linear-to-r from-blue-600 to-violet-600 p-8 text-center sm:p-14">
+          <h2 className="text-3xl font-black sm:text-4xl">
+            Ready to bring focus to your team?
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-blue-100">
+            Create your TaskFlow account and start managing tasks with clarity.
+          </p>
+          <Link
+            href="/register"
+            className="mt-8 inline-block rounded-xl bg-white px-6 py-3.5 font-bold text-blue-700 transition hover:bg-blue-50"
+          >
+            Start managing tasks →
+          </Link>
+        </div>
+      </section>
+
+      <footer className="border-t border-white/10 px-5 py-8 text-center text-sm text-slate-500">
+        © 2026 TaskFlow. Built for better teamwork.
+      </footer>
+    </main>
   );
 }
