@@ -47,7 +47,8 @@ test.describe("TaskFlow End-to-End Task Manager", () => {
     
     // Log out of Assigner
     await page.click('button:has-text("Log out")');
-    await page.waitForURL("/");
+    // Since we logged out on a protected dashboard, the route guard redirects us to /login
+    await page.waitForURL(/.*login/);
 
     // 2. Log in as Viewer (Maya)
     await page.goto("/login");
@@ -72,7 +73,7 @@ test.describe("TaskFlow End-to-End Task Manager", () => {
 
     // Log out of Viewer
     await page.click('button:has-text("Log out")');
-    await page.waitForURL("/");
+    await page.waitForURL(/.*login/);
 
     // 3. Log in as Assigner again to verify and delete the task
     await page.goto("/login");
@@ -94,6 +95,6 @@ test.describe("TaskFlow End-to-End Task Manager", () => {
 
     // Log out
     await page.click('button:has-text("Log out")');
-    await page.waitForURL("/");
+    await page.waitForURL(/.*login/);
   });
 });

@@ -36,12 +36,16 @@ export default function RegisterPage() {
     try {
       setIsLoading(true);
       await register(name, email, password, role);
-    } catch (err: any) {
-      console.error(err);
-      setErrorMsg(
-        err.response?.data?.message ??
-          "Could not create account. Please try again."
-      );
+    } catch (error: any) {
+      console.error(error);
+      if (!error.response) {
+        setErrorMsg("Connection failed: Could not connect to the backend server. Please verify the Express backend is running on port 5000.");
+      } else {
+        setErrorMsg(
+          error.response.data?.message ??
+            "Could not create account. Please try again."
+        );
+      }
     } finally {
       setIsLoading(false);
     }

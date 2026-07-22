@@ -25,10 +25,14 @@ export default function LoginPage() {
       await login(email, password);
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(
-        err.response?.data?.message ??
-          "Invalid email or password. Please try again."
-      );
+      if (!err.response) {
+        setErrorMsg("Connection failed: Could not connect to the backend server. Please verify the Express backend is running on port 5000.");
+      } else {
+        setErrorMsg(
+          err.response.data?.message ??
+            "Invalid email or password. Please try again."
+        );
+      }
     } finally {
       setIsLoading(false);
     }
