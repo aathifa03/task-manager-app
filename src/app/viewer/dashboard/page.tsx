@@ -382,7 +382,8 @@ export default function ViewerDashboard() {
                           </div>
                         </div>
                       </article>
-                    ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
