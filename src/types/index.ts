@@ -5,6 +5,12 @@ export interface User {
   role: "assigner" | "viewer";
 }
 
+export interface KanbanColumn {
+  id: string;
+  title: string;
+  position: number;
+}
+
 export interface Subtask {
   id: string;
   title: string;
