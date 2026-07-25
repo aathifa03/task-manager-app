@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 
+const JWT_SECRET = process.env.JWT_SECRET || "taskflow_secret_key_demo_2026";
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -8,7 +10,7 @@ function authenticateToken(req, res, next) {
     return res.status(401).json({ message: "Access token is missing or invalid." });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token." });
     }

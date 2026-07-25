@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskFlow - Modern Task Management Web Application
 
-## Getting Started
+TaskFlow is a production-grade, full-stack Task Management application built with **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS v4**, and an **Express.js REST API backend**. 
 
-First, run the development server:
+It features Role-Based Access Control (**Assigner** vs. **Viewer**) and a **zero-cloud temporary memory data layer** (data is reset whenever the server process is restarted).
+
+---
+
+## ⚡ Highlights & Key Features
+
+* **Role-Based Access Control (RBAC):**
+  * **Assigner Role:** Create tasks, assign them to team members (viewers), filter by status, and delete tasks.
+  * **Viewer Role:** Focused dashboard displaying only tasks assigned to the logged-in viewer with quick one-click status toggling (`pending` ⇄ `done`).
+* **Temporary Data Layer (Zero Cloud / No External Dependencies):** Data is managed in-memory by the Express backend (`server/data.js`), pre-seeded with default demo data, and resets when the backend restarts.
+* **Modern UI & Aesthetic Experience:** Dark/Light theme toggle, responsive layout, glassmorphic styling, stats counters, and smooth micro-animations.
+* **End-to-End Testing (Playwright):** Pre-configured automated E2E test suite covering login validation, route guards, and full task lifecycle.
+
+---
+
+## 🏗️ System Architecture
+
+```
+  ┌──────────────────────────────┐              ┌─────────────────────────────┐
+  │   Next.js 16 (Port 3000)     │              │    Express API (Port 5000)  │
+  │   App Router / TypeScript    ├─────────────►│    JWT Auth & Rest Endpoints │
+  └──────────────────────────────┘   HTTP REST  └──────────────┬──────────────┘
+                                                               │
+                                                               ▼
+                                                     In-Memory Data Store
+                                                    (users = [], tasks = [])
+```
+
+---
+
+## 🚀 Quick Start & Running the Application
+
+### 1. Install Dependencies
+
+```bash
+# Install root (client) dependencies
+npm install
+
+# Install server dependencies
+cd server && npm install && cd ..
+```
+
+### 2. Start Both Client & Server (Unified Command)
+
+Run a single command in the root folder to start both the Next.js frontend (port 3000) and the Express backend (port 5000):
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔑 Pre-Seeded Demo Credentials
 
-## Learn More
+For quick evaluation during interviews or testing, the backend is pre-populated with these default accounts (Password: `password123`):
 
-To learn more about Next.js, take a look at the following resources:
+| Role | Email | Password | Permissions |
+| :--- | :--- | :--- | :--- |
+| **Assigner** | `assigner@taskflow.com` | `password123` | Create, Edit, Delete & Assign tasks to anyone |
+| **Viewer** | `viewer@taskflow.com` | `password123` | View assigned tasks & update completion status |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧪 Running End-to-End Tests
 
-## Deploy on Vercel
+The repository includes a complete Playwright test suite validating user flows, invalid credentials, protected route guards, and real-time task lifecycle.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Run Playwright tests headlessly
+npm run test
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run Playwright tests with UI Mode
+npx playwright test --ui
+```
+
+---
+
+## 📄 License
+ISC License © 2026 TaskFlow.

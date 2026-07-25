@@ -23,8 +23,25 @@ export const loginUser = async (data: LoginData) => {
   return response.data;
 };
 
-export const getProfile = async () => {
+export const logoutUser = async () => {
+  // Client-side logout clears localStorage token
+};
+
+export const getProfile = async (): Promise<{ user: User }> => {
   const response = await api.get("/auth/me");
+  return response.data;
+};
+
+export const updateProfile = async (data: { name: string }): Promise<{ user: User; message: string }> => {
+  const response = await api.put("/auth/profile", data);
+  return response.data;
+};
+
+export const updatePassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}): Promise<{ message: string }> => {
+  const response = await api.put("/auth/password", data);
   return response.data;
 };
 

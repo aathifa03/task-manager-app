@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -18,22 +19,19 @@ export default function LoginPage() {
 
     if (!email || !password) {
       setErrorMsg("Please enter both email and password.");
+      toast.error("Please enter both email and password.");
       return;
     }
 
     try {
       setIsLoading(true);
       await login(email, password);
+      toast.success("Login successful! Welcome back.");
     } catch (err: any) {
       console.error(err);
-      if (!err.response) {
-        setErrorMsg("Connection failed: Could not connect to the backend server. Please verify the Express backend is running on port 5000.");
-      } else {
-        setErrorMsg(
-          err.response.data?.message ??
-            "Invalid email or password. Please try again."
-        );
-      }
+      const msg = err.response?.data?.message || err.message || "Invalid email or password. Please try again.";
+      setErrorMsg(msg);
+      toast.error(msg);
     } finally {
       setIsLoading(false);
     }

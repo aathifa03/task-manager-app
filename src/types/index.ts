@@ -5,13 +5,44 @@ export interface User {
   role: "assigner" | "viewer";
 }
 
+export interface Subtask {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
+export interface Comment {
+  id: string;
+  authorName: string;
+  authorEmail: string;
+  text: string;
+  createdAt: string;
+}
+
+export interface ActivityItem {
+  id: string;
+  action: string;
+  timestamp: string;
+}
+
+export type IssueType = "task" | "bug" | "feature" | "improvement";
+
 export interface Task {
   id: string;
   title: string;
   description: string;
   status: "pending" | "done";
-  assignedTo: string; // Email of the user assigned to this task
-  assignedToName?: string; // Display name of the assigned user
+  issueType?: IssueType;
+  priority?: "low" | "medium" | "high";
+  dueDate?: string | null;
+  assignedTo: string;
+  assignedToName?: string;
+  subtasks?: Subtask[];
+  comments?: Comment[];
+  activityLog?: ActivityItem[];
+  createdAt?: string;
+  columnId?: string;
+  position?: number;
 }
 
 export interface AuthContextType {

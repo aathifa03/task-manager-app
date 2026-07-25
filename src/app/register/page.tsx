@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -22,32 +23,31 @@ export default function RegisterPage() {
 
     if (!name || !email || !password || !confirmPassword) {
       setErrorMsg("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
 
     if (password.length < 6) {
       setErrorMsg("Password must contain at least 6 characters.");
+      toast.error("Password must contain at least 6 characters.");
       return;
     }
 
     if (password !== confirmPassword) {
       setErrorMsg("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
 
     try {
       setIsLoading(true);
       await register(name, email, password, role);
+      toast.success("Account created successfully! Welcome to TaskFlow.");
     } catch (error: any) {
       console.error(error);
-      if (!error.response) {
-        setErrorMsg("Connection failed: Could not connect to the backend server. Please verify the Express backend is running on port 5000.");
-      } else {
-        setErrorMsg(
-          error.response.data?.message ??
-            "Could not create account. Please try again."
-        );
-      }
+      const msg = error.response?.data?.message || error.message || "Could not create account. Please try again.";
+      setErrorMsg(msg);
+      toast.error(msg);
     } finally {
       setIsLoading(false);
     }

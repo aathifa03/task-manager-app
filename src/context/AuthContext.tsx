@@ -4,6 +4,7 @@ import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { User, AuthContextType } from "@/types";
 import { loginUser, registerUser, getProfile } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -74,6 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
     setToken(null);
     setUser(null);
+    toast.success("Logged out successfully.");
     router.push("/");
   };
 

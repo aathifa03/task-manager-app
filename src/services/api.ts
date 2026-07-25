@@ -1,18 +1,25 @@
 import axios from "axios";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000/api";
+const getBaseUrl = () => {
+  if (typeof window !== "undefined") {
+    const override = localStorage.getItem("api_url_override");
+    if (override && override.trim()) {
+      return override.trim().replace(/\/$/, "");
+    }
+  }
+  return process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000/api";
+};
 
 const api = axios.create({
-  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Interceptor to attach JWT token to all requests if present in localStorage
+// Dynamic BaseURL & Auth Interceptor
 api.interceptors.request.use(
   (config) => {
+    config.baseURL = getBaseUrl();
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       if (token && config.headers) {

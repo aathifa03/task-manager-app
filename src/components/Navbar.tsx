@@ -16,46 +16,48 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl transition duration-300 text-slate-900 dark:text-white">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-linear-to-br from-blue-500 to-violet-600 font-bold shadow-lg shadow-blue-500/30 text-white group-hover:scale-105 transition-transform duration-200">
-              ✓
-            </div>
-            <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-              TaskFlow
-            </span>
-          </Link>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex h-13 items-center justify-between gap-4">
+          {/* Logo & Desktop Nav Links */}
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+              <div className="grid h-7.5 w-7.5 place-items-center rounded-lg bg-linear-to-br from-blue-500 to-violet-600 font-bold shadow-md shadow-blue-500/20 text-white group-hover:scale-105 transition-transform duration-200">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+              </div>
+              <span className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                TaskFlow
+              </span>
+            </Link>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">
-            <Link href="/#features" className="relative py-1 transition hover:text-slate-900 dark:hover:text-white group">
-              Features
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/#how-it-works" className="relative py-1 transition hover:text-slate-900 dark:hover:text-white group">
-              How it works
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/#roles" className="relative py-1 transition hover:text-slate-900 dark:hover:text-white group">
-              Roles
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
-            </Link>
+            <div className="hidden items-center gap-5 text-xs font-medium text-slate-600 dark:text-slate-300 md:flex">
+              <Link href="/#features" className="relative py-1 transition hover:text-slate-900 dark:hover:text-white group">
+                Features
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+              </Link>
+              <Link href="/#how-it-works" className="relative py-1 transition hover:text-slate-900 dark:hover:text-white group">
+                How it works
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+              </Link>
+              <Link href="/#roles" className="relative py-1 transition hover:text-slate-900 dark:hover:text-white group">
+                Roles
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+              </Link>
+            </div>
           </div>
 
           {/* Desktop Actions / Auth / Theme Toggle */}
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden items-center gap-2 md:flex">
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="relative rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2.5 text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white focus:outline-none cursor-pointer animate-none"
+              className="group relative rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2 text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white focus:outline-none cursor-pointer"
               aria-label="Toggle theme"
             >
-              <div className="relative h-5 w-5 flex items-center justify-center">
-                {/* Sun Icon (shows when dark, click to go light) */}
+              <div className="relative h-4 w-4 flex items-center justify-center">
                 <svg
-                  className={`absolute h-5 w-5 transform transition-all duration-500 ${
+                  className={`absolute h-4 w-4 transform transition-all duration-500 ${
                     theme === "dark" ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
                   }`}
                   fill="none"
@@ -69,9 +71,8 @@ export default function Navbar() {
                     d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                {/* Moon Icon (shows when light, click to go dark) */}
                 <svg
-                  className={`absolute h-5 w-5 transform transition-all duration-500 ${
+                  className={`absolute h-4 w-4 transform transition-all duration-500 ${
                     theme === "light" ? "rotate-0 scale-100 opacity-100" : "rotate-90 scale-0 opacity-0"
                   }`}
                   fill="none"
@@ -86,49 +87,97 @@ export default function Navbar() {
                   />
                 </svg>
               </div>
+              <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-slate-900 dark:bg-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-white opacity-0 transition group-hover:opacity-100 whitespace-nowrap shadow-md z-50">
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </span>
             </button>
 
             {user ? (
               <>
-                {/* Stylized Profile + Role Tag */}
-                <div className="flex items-center gap-2 rounded-xl border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-white/5 px-3.5 py-1.5 text-xs text-slate-700 dark:text-slate-300 shadow-xs">
-                  <div className="relative flex h-5 w-5 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-violet-500 font-bold text-[10px] text-white">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">{user.name}</span>
-                  <span className="text-slate-300 dark:text-slate-600">|</span>
-                  <span className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                    user.role === "assigner" 
-                      ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200/50 dark:border-blue-500/20" 
-                      : "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-200/50 dark:border-violet-500/20"
-                  }`}>
-                    {user.role}
-                  </span>
-                </div>
+                {/* Dashboard Icon Button */}
                 <Link
                   href="/dashboard"
-                  className="rounded-xl bg-linear-to-r from-blue-500 to-violet-600 px-4.5 py-2 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98] shadow-md shadow-blue-500/10"
+                  className="group relative rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2 text-slate-600 dark:text-slate-300 transition hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
+                  aria-label="Dashboard"
                 >
-                  Dashboard
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                  <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-slate-900 dark:bg-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-white opacity-0 transition group-hover:opacity-100 whitespace-nowrap shadow-md z-50">
+                    Dashboard
+                  </span>
                 </Link>
+
+                {/* Profile Icon Button */}
+                <Link
+                  href="/profile"
+                  className="group relative rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2 text-slate-600 dark:text-slate-300 transition hover:bg-violet-50 dark:hover:bg-violet-500/10 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer"
+                  aria-label="Profile"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-slate-900 dark:bg-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-white opacity-0 transition group-hover:opacity-100 whitespace-nowrap shadow-md z-50">
+                    Profile
+                  </span>
+                </Link>
+
+                {/* Settings Icon Button */}
+                <Link
+                  href="/settings"
+                  className="group relative rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2 text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+                  aria-label="Settings"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-slate-900 dark:bg-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-white opacity-0 transition group-hover:opacity-100 whitespace-nowrap shadow-md z-50">
+                    Settings
+                  </span>
+                </Link>
+
+                {/* Log Out Icon Button */}
                 <button
                   onClick={logout}
-                  className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-4.5 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+                  className="group relative rounded-lg border border-red-200 dark:border-red-500/20 bg-red-50/50 dark:bg-red-500/5 p-2 text-red-600 dark:text-red-400 transition hover:bg-red-500 hover:text-white cursor-pointer"
+                  aria-label="Log out"
                 >
-                  Log out
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-slate-900 dark:bg-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-white opacity-0 transition group-hover:opacity-100 whitespace-nowrap shadow-md z-50">
+                    Log out
+                  </span>
                 </button>
+
+                {/* Profile + Role Badge (Rightmost Last Position) */}
+                <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-white/5 px-2.5 py-1 text-[11px] text-slate-700 dark:text-slate-300 shadow-xs ml-1">
+                  <div className="relative flex h-4.5 w-4.5 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-violet-500 font-bold text-[9px] text-white">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">{user.name}</span>
+                  <span className="text-slate-300 dark:text-slate-600">|</span>
+                  <span className={`inline-flex items-center rounded-md px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider ${
+                    user.role === "assigner" 
+                      ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200/50 dark:border-blue-500/20" 
+                      : "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-200/50 dark:border-violet-500/20"
+                  }`}>
+                    {user.role}
+                  </span>
+                </div>
               </>
             ) : (
               <>
                 <Link
                   href="/login"
-                  className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
+                  className="rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
                 >
                   Log in
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-xl bg-slate-900 dark:bg-white px-5 py-2.5 text-sm font-bold text-white dark:text-slate-950 transition hover:bg-slate-800 dark:hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98]"
+                  className="rounded-lg bg-slate-900 dark:bg-white px-3.5 py-1.5 text-xs font-bold text-white dark:text-slate-950 transition hover:bg-slate-800 dark:hover:bg-slate-100 active:scale-[0.98]"
                 >
                   Get started
                 </Link>
@@ -136,17 +185,16 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Right Container (Theme Toggle + Menu Toggle) */}
-          <div className="flex items-center gap-3 md:hidden">
-            {/* Mobile Theme Toggle Button */}
+          {/* Mobile Right Container */}
+          <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={toggleTheme}
-              className="relative rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2 text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white focus:outline-none"
+              className="relative rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-1.5 text-slate-600 dark:text-slate-300"
               aria-label="Toggle theme"
             >
-              <div className="relative h-5 w-5 flex items-center justify-center">
+              <div className="relative h-4 w-4 flex items-center justify-center">
                 <svg
-                  className={`absolute h-5 w-5 transform transition-all duration-500 ${
+                  className={`absolute h-4 w-4 transform transition-all duration-500 ${
                     theme === "dark" ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
                   }`}
                   fill="none"
@@ -161,7 +209,7 @@ export default function Navbar() {
                   />
                 </svg>
                 <svg
-                  className={`absolute h-5 w-5 transform transition-all duration-500 ${
+                  className={`absolute h-4 w-4 transform transition-all duration-500 ${
                     theme === "light" ? "rotate-0 scale-100 opacity-100" : "rotate-90 scale-0 opacity-0"
                   }`}
                   fill="none"
@@ -178,128 +226,62 @@ export default function Navbar() {
               </div>
             </button>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={toggleMenu}
-              type="button"
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-400 transition hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white focus:outline-none"
-              aria-controls="mobile-menu"
-              aria-expanded={isOpen}
+              className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-1.5 text-slate-600 dark:text-slate-300"
+              aria-label="Toggle menu"
             >
-              <span className="sr-only">Open main menu</span>
-              <div className="relative flex h-5 w-5 flex-col justify-between overflow-hidden">
-                <span
-                  className={`h-0.5 w-full bg-current transform transition-all duration-300 ${
-                    isOpen ? "rotate-45 translate-y-2" : ""
-                  }`}
-                />
-                <span
-                  className={`h-0.5 w-full bg-current transition-all duration-300 ${
-                    isOpen ? "opacity-0 translate-x-3" : ""
-                  }`}
-                />
-                <span
-                  className={`h-0.5 w-full bg-current transform transition-all duration-300 ${
-                    isOpen ? "-rotate-45 -translate-y-2.5" : ""
-                  }`}
-                />
-              </div>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {isOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl ${
-          isOpen ? "max-h-[350px] opacity-100 py-5" : "max-h-0 opacity-0"
-        }`}
-        id="mobile-menu"
-      >
-        <div className="space-y-4 px-5">
-          {/* Navigation Links */}
-          <div className="flex flex-col gap-3.5">
-            <Link
-              href="/#features"
-              onClick={() => setIsOpen(false)}
-              className="text-base font-semibold text-slate-600 dark:text-slate-300 transition hover:text-slate-900 dark:hover:text-white"
-            >
-              Features
-            </Link>
-            <Link
-              href="/#how-it-works"
-              onClick={() => setIsOpen(false)}
-              className="text-base font-semibold text-slate-600 dark:text-slate-300 transition hover:text-slate-900 dark:hover:text-white"
-            >
-              How it works
-            </Link>
-            <Link
-              href="/#roles"
-              onClick={() => setIsOpen(false)}
-              className="text-base font-semibold text-slate-600 dark:text-slate-300 transition hover:text-slate-900 dark:hover:text-white"
-            >
-              Roles
-            </Link>
-          </div>
-
-          <div className="border-t border-slate-200 dark:border-white/10 pt-4">
-            {user ? (
-              <div className="flex flex-col gap-4">
-                {/* User Info Tag */}
-                <div className="flex items-center gap-2 rounded-xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300">
-                  <div className="relative flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-violet-500 font-bold text-xs text-white">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">{user.name}</span>
-                  <span className="text-slate-300 dark:text-slate-600">|</span>
-                  <span className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider ${
-                    user.role === "assigner" 
-                      ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200/50 dark:border-blue-500/20" 
-                      : "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-200/50 dark:border-violet-500/20"
-                  }`}>
-                    {user.role}
-                  </span>
+      {/* Mobile Drawer Menu */}
+      {isOpen && (
+        <div className="border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl px-4 py-3 md:hidden space-y-2">
+          {user ? (
+            <>
+              <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100 dark:border-white/5">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-violet-500 font-bold text-white text-xs">
+                  {user.name.charAt(0).toUpperCase()}
                 </div>
-                <div className="grid gap-2 grid-cols-2">
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl bg-linear-to-r from-blue-500 to-violet-600 py-3 text-center text-sm font-semibold text-white shadow-md shadow-blue-500/10 active:scale-[0.98] transition"
-                  >
-                    Dashboard
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      logout();
-                    }}
-                    className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 py-3 text-center text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    Log out
-                  </button>
+                <div>
+                  <p className="font-bold text-xs">{user.name}</p>
+                  <p className="text-[10px] text-slate-500">{user.email}</p>
                 </div>
               </div>
-            ) : (
-              <div className="grid gap-3 grid-cols-2">
-                <Link
-                  href="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 py-3 text-center text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl bg-slate-900 dark:bg-white py-3 text-center text-sm font-bold text-white dark:text-slate-950 hover:bg-slate-800 dark:hover:bg-slate-100 transition"
-                >
-                  Get started
-                </Link>
-              </div>
-            )}
-          </div>
+              <Link href="/dashboard" className="block py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                Dashboard
+              </Link>
+              <Link href="/profile" className="block py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Profile
+              </Link>
+              <Link href="/settings" className="block py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Settings
+              </Link>
+              <button onClick={logout} className="block w-full text-left py-1.5 text-xs font-semibold text-red-500">
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="block py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Log in
+              </Link>
+              <Link href="/register" className="block py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                Get started
+              </Link>
+            </>
+          )}
         </div>
-      </div>
+      )}
     </nav>
   );
 }
