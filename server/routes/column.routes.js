@@ -41,6 +41,29 @@ router.post("/", authenticateToken, requireRole(["assigner"]), (req, res) => {
   }
 });
 
+// Reorder columns (Assigner only) — MUST come before /:id to match correctly
+router.put("/reorder/all", authenticateToken, requireRole(["assigner"]), (req, res) => {
+  try {
+    const { orderedIds } = req.body;
+
+    if (!Array.isArray(orderedIds)) {
+      return res.status(400).json({ message: "orderedIds array is required." });
+    }
+
+    orderedIds.forEach((id, index) => {
+      const col = columns.find((c) => c.id === id);
+      if (col) col.position = index;
+    });
+
+    columns.sort((a, b) => a.position - b.position);
+    save();
+
+    res.status(200).json(columns);
+  } catch (error) {
+    res.status(500).json({ message: "Error reordering columns." });
+  }
+});
+
 // Update a column (Assigner only)
 router.put("/:id", authenticateToken, requireRole(["assigner"]), (req, res) => {
   try {
@@ -63,29 +86,6 @@ router.put("/:id", authenticateToken, requireRole(["assigner"]), (req, res) => {
     res.status(200).json(column);
   } catch (error) {
     res.status(500).json({ message: "Error updating column." });
-  }
-});
-
-// Reorder columns (Assigner only)
-router.put("/reorder/all", authenticateToken, requireRole(["assigner"]), (req, res) => {
-  try {
-    const { orderedIds } = req.body;
-
-    if (!Array.isArray(orderedIds)) {
-      return res.status(400).json({ message: "orderedIds array is required." });
-    }
-
-    orderedIds.forEach((id, index) => {
-      const col = columns.find((c) => c.id === id);
-      if (col) col.position = index;
-    });
-
-    columns.sort((a, b) => a.position - b.position);
-    save();
-
-    res.status(200).json(columns);
-  } catch (error) {
-    res.status(500).json({ message: "Error reordering columns." });
   }
 });
 
