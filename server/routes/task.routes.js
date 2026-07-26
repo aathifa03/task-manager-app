@@ -1,9 +1,42 @@
 const express = require("express");
 const { tasks, users, columns, save } = require("../data");
+const supabase = require("../supabase");
 const authenticateToken = require("../middleware/authenticateToken");
 const requireRole = require("../middleware/requireRole");
 
 const router = express.Router();
+
+async function syncTaskToSupabase(task) {
+  try {
+    await supabase.from("tasks").upsert([{
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      priority: task.priority || 'medium',
+      issue_type: task.issueType || 'task',
+      due_date: task.dueDate || null,
+      assigned_to: task.assignedTo,
+      assigned_to_name: task.assignedToName || task.assignedTo.split('@')[0],
+      subtasks: task.subtasks || [],
+      comments: task.comments || [],
+      activity_log: task.activityLog || [],
+      column_id: task.columnId || 'col-pending',
+      position: task.position || 0,
+      created_at: task.createdAt || new Date().toISOString()
+    }], { onConflict: "id" });
+  } catch (err) {
+    console.error("Supabase task sync error:", err);
+  }
+}
+
+async function deleteTaskFromSupabase(id) {
+  try {
+    await supabase.from("tasks").delete().eq("id", id);
+  } catch (err) {
+    console.error("Supabase task delete error:", err);
+  }
+}
 
 // Get tasks based on user role
 router.get("/", authenticateToken, (req, res) => {
@@ -60,6 +93,7 @@ router.post("/", authenticateToken, requireRole(["assigner"]), (req, res) => {
 
     tasks.push(newTask);
     save();
+    syncTaskToSupabase(newTask);
 
     res.status(201).json(newTask);
   } catch (error) {
@@ -96,6 +130,7 @@ router.put("/move/:id", authenticateToken, (req, res) => {
         task.position = position;
       }
       save();
+      syncTaskToSupabase(task);
       return res.status(200).json(task);
     }
 
@@ -116,6 +151,7 @@ router.put("/move/:id", authenticateToken, (req, res) => {
     }
 
     save();
+    syncTaskToSupabase(task);
     res.status(200).json(task);
   } catch (error) {
     res.status(500).json({ message: "Error moving task." });
@@ -168,6 +204,7 @@ router.post("/:id/comments", authenticateToken, (req, res) => {
     });
 
     save();
+    syncTaskToSupabase(task);
     res.status(201).json(task);
   } catch (error) {
     res.status(500).json({ message: "Error adding comment." });
@@ -226,6 +263,7 @@ router.put("/:id", authenticateToken, (req, res) => {
       if (position !== undefined) task.position = position;
 
       save();
+      syncTaskToSupabase(task);
       return res.status(200).json(task);
     } else if (req.user.role === "viewer") {
       if (task.assignedTo.toLowerCase() !== req.user.email.toLowerCase()) {
@@ -252,6 +290,7 @@ router.put("/:id", authenticateToken, (req, res) => {
       }
 
       save();
+      syncTaskToSupabase(task);
       return res.status(200).json(task);
     } else {
       return res.status(403).json({ message: "Forbidden: Invalid role." });
@@ -273,6 +312,7 @@ router.delete("/:id", authenticateToken, requireRole(["assigner"]), (req, res) =
 
     tasks.splice(taskIndex, 1);
     save();
+    deleteTaskFromSupabase(id);
     res.status(200).json({ message: "Task deleted successfully." });
   } catch (error) {
     res.status(500).json({ message: "Error deleting task." });

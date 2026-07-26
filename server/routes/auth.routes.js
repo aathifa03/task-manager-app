@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { users, save } = require("../data");
+const supabase = require("../supabase");
 const authenticateToken = require("../middleware/authenticateToken");
 
 const router = express.Router();
@@ -45,6 +46,16 @@ router.post("/register", async (req, res) => {
 
     users.push(newUser);
     save();
+
+    // Sync user to Supabase Cloud Database
+    try {
+      await supabase.from("users").upsert(
+        [{ name: newUser.name, email: newUser.email, role: newUser.role }],
+        { onConflict: "email" }
+      );
+    } catch (sbErr) {
+      console.error("Supabase user sync error:", sbErr);
+    }
 
     const token = jwt.sign(
       {
