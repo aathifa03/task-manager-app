@@ -84,11 +84,17 @@ router.put("/move/:id", authenticateToken, (req, res) => {
       if (task.assignedTo.toLowerCase() !== req.user.email.toLowerCase()) {
         return res.status(403).json({ message: "Forbidden: You can only move tasks assigned to you." });
       }
-      if (columnId !== "col-done" && columnId !== undefined) {
-        return res.status(403).json({ message: "Viewers can only move tasks to Done." });
+      if (columnId !== undefined) {
+        task.columnId = columnId;
+        if (columnId === "col-done" || columnId.toLowerCase().includes("done") || columnId.toLowerCase().includes("completed")) {
+          task.status = "done";
+        } else {
+          task.status = "pending";
+        }
       }
-      task.columnId = "col-done";
-      task.status = "done";
+      if (position !== undefined) {
+        task.position = position;
+      }
       save();
       return res.status(200).json(task);
     }
