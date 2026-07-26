@@ -31,7 +31,7 @@ export default function AssignerDashboard() {
   const [viewers, setViewers] = useState<User[]>([]);
 
   // View Switcher State
-  const [viewMode, setViewMode] = useState<"cards" | "kanban" | "analytics">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "kanban" | "analytics">("kanban");
 
   // Selected Task for Detail Modal
   const [selectedDetailTask, setSelectedDetailTask] = useState<Task | null>(null);

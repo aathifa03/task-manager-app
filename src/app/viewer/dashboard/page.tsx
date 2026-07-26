@@ -18,7 +18,7 @@ export default function ViewerDashboard() {
   const [columns, setColumns] = useState<KanbanColumn[]>([]);
 
   // View Switcher State
-  const [viewMode, setViewMode] = useState<"cards" | "kanban" | "analytics">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "kanban" | "analytics">("kanban");
 
   // Selected Task for Detail Modal
   const [selectedDetailTask, setSelectedDetailTask] = useState<Task | null>(null);
