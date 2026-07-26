@@ -523,13 +523,13 @@ export default function AssignerDashboard() {
                               </div>
 
                               <span
-                                className={`rounded-full px-2 py-0.2 text-[9px] font-bold uppercase tracking-wider ${
+                                className={`rounded-full px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider ${
                                   task.status === "done"
-                                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300"
-                                    : "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
+                                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30"
+                                    : "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30"
                                 }`}
                               >
-                                {task.status}
+                                STAGE: {columns.find((c) => c.id === task.columnId)?.title || task.status}
                               </span>
                             </div>
 
