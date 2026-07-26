@@ -7,7 +7,10 @@ const getBaseUrl = () => {
       return override.trim().replace(/\/$/, "");
     }
   }
-  return process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000/api";
+  return (
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://task-manager-app-ntlt.onrender.com/api"
+  );
 };
 
 const api = axios.create({
@@ -28,9 +31,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export default api;
