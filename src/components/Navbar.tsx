@@ -9,6 +9,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -108,6 +109,32 @@ export default function Navbar() {
                   </span>
                 </Link>
 
+                {/* Notifications Bell Button */}
+                <div className="relative">
+                  <button
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    className="group relative rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-2 text-slate-600 dark:text-slate-300 transition hover:bg-amber-50 dark:hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 cursor-pointer"
+                    aria-label="Notifications"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9" />
+                    </svg>
+                  </button>
+
+                  {/* Notification Dropdown */}
+                  {showNotifications && (
+                    <div className="absolute right-0 mt-2 w-64 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3 shadow-xl z-50 animate-in fade-in space-y-2">
+                      <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-2">
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">Notifications</h4>
+                        <span className="text-[9px] text-slate-400 font-semibold">Live System</span>
+                      </div>
+                      <div className="p-3 text-center text-xs text-slate-500 dark:text-slate-400">
+                        No new notifications
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {/* Profile Icon Button */}
                 <Link
                   href="/profile"
@@ -151,7 +178,7 @@ export default function Navbar() {
                   </span>
                 </button>
 
-                {/* Profile + Role Badge (Rightmost Last Position) */}
+                {/* Profile + Role Badge */}
                 <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-white/5 px-2.5 py-1 text-[11px] text-slate-700 dark:text-slate-300 shadow-xs ml-1">
                   <div className="relative flex h-4.5 w-4.5 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-violet-500 font-bold text-[9px] text-white">
                     {user.name.charAt(0).toUpperCase()}
@@ -228,60 +255,19 @@ export default function Navbar() {
 
             <button
               onClick={toggleMenu}
-              className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-1.5 text-slate-600 dark:text-slate-300"
-              aria-label="Toggle menu"
+              className="rounded-lg border border-slate-200 dark:border-white/10 p-1.5 text-slate-600 dark:text-slate-300"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {isOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Drawer Menu */}
-      {isOpen && (
-        <div className="border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl px-4 py-3 md:hidden space-y-2">
-          {user ? (
-            <>
-              <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100 dark:border-white/5">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-violet-500 font-bold text-white text-xs">
-                  {user.name.charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <p className="font-bold text-xs">{user.name}</p>
-                  <p className="text-[10px] text-slate-500">{user.email}</p>
-                </div>
-              </div>
-              <Link href="/dashboard" className="block py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
-                Dashboard
-              </Link>
-              <Link href="/profile" className="block py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Profile
-              </Link>
-              <Link href="/settings" className="block py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Settings
-              </Link>
-              <button onClick={logout} className="block w-full text-left py-1.5 text-xs font-semibold text-red-500">
-                Log out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="block py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Log in
-              </Link>
-              <Link href="/register" className="block py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
-                Get started
-              </Link>
-            </>
-          )}
-        </div>
-      )}
     </nav>
   );
 }

@@ -269,6 +269,27 @@ export default function AssignerDashboard() {
     }
   };
 
+  const handleExportCSV = () => {
+    if (tasks.length === 0) {
+      toast.error("No tasks to export.");
+      return;
+    }
+    const headers = "ID,Title,Description,Status,Priority,IssueType,AssignedTo,DueDate\n";
+    const rows = tasks
+      .map(
+        (t) =>
+          `"${t.id}","${t.title.replace(/"/g, '""')}","${t.description.replace(/"/g, '""')}","${t.status}","${t.priority || 'medium'}","${t.issueType || 'task'}","${t.assignedTo}","${t.dueDate || ''}"`
+      )
+      .join("\n");
+    const blob = new Blob([headers + rows], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `TaskFlow_Export_${Date.now()}.csv`;
+    a.click();
+    toast.success("Tasks exported to CSV!");
+  };
+
   return (
     <ProtectedRoute roles={["assigner"]}>
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300">
@@ -287,7 +308,16 @@ export default function AssignerDashboard() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 self-start sm:self-auto">
+              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                {/* Export CSV Button */}
+                <button
+                  onClick={handleExportCSV}
+                  className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition cursor-pointer"
+                  title="Export tasks to CSV"
+                >
+                  📄 Export CSV
+                </button>
+
                 {/* View Switcher Tabs */}
                 <div className="flex rounded-lg bg-slate-200/70 dark:bg-white/5 p-1 text-xs">
                   <button

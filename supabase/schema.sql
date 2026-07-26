@@ -39,10 +39,14 @@ CREATE TABLE IF NOT EXISTS public.kanban_columns (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 4. Enable Row Level Security (RLS) & Public Access Policies for Demo
+-- 4. Enable Row Level Security (RLS) & Public Access Policies
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.kanban_columns ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow public access to users" ON public.users;
+DROP POLICY IF EXISTS "Allow public access to tasks" ON public.tasks;
+DROP POLICY IF EXISTS "Allow public access to columns" ON public.kanban_columns;
 
 CREATE POLICY "Allow public access to users" ON public.users FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow public access to tasks" ON public.tasks FOR ALL USING (true) WITH CHECK (true);
@@ -52,18 +56,8 @@ CREATE POLICY "Allow public access to columns" ON public.kanban_columns FOR ALL 
 ALTER PUBLICATION supabase_realtime ADD TABLE public.tasks;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.kanban_columns;
 
--- 6. Insert Default Seed Data
-INSERT INTO public.users (name, email, role) VALUES
-  ('Hajeeth Ahamed', 'assigner@taskflow.com', 'assigner'),
-  ('Maya', 'viewer@taskflow.com', 'viewer')
-ON CONFLICT (email) DO NOTHING;
-
+-- 6. Default Columns Setup
 INSERT INTO public.kanban_columns (id, title, position) VALUES
   ('col-pending', 'Pending Tasks', 1),
   ('col-done', 'Completed Tasks', 2)
-ON CONFLICT (id) DO NOTHING;
-
-INSERT INTO public.tasks (title, description, status, priority, issue_type, assigned_to, assigned_to_name, column_id, position) VALUES
-  ('Design login screen', 'Build the responsive login screen with dark glassmorphic design.', 'done', 'high', 'feature', 'viewer@taskflow.com', 'Maya', 'col-done', 1),
-  ('Connect Register API', 'Integrate registration page with Express authentication endpoints.', 'pending', 'medium', 'task', 'viewer@taskflow.com', 'Maya', 'col-pending', 1)
 ON CONFLICT (id) DO NOTHING;
