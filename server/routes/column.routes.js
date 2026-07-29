@@ -1,9 +1,30 @@
 const express = require("express");
 const { columns, save } = require("../data");
+const supabase = require("../supabase");
 const authenticateToken = require("../middleware/authenticateToken");
 const requireRole = require("../middleware/requireRole");
 
 const router = express.Router();
+
+async function syncColumnToSupabase(col) {
+  try {
+    await supabase.from("kanban_columns").upsert([{
+      id: col.id,
+      title: col.title,
+      position: col.position
+    }], { onConflict: "id" });
+  } catch (err) {
+    console.error("Supabase column sync error:", err);
+  }
+}
+
+async function deleteColumnFromSupabase(id) {
+  try {
+    await supabase.from("kanban_columns").delete().eq("id", id);
+  } catch (err) {
+    console.error("Supabase column delete error:", err);
+  }
+}
 
 // Get all columns
 router.get("/", authenticateToken, (req, res) => {
@@ -34,6 +55,7 @@ router.post("/", authenticateToken, requireRole(["assigner"]), (req, res) => {
 
     columns.push(newColumn);
     save();
+    syncColumnToSupabase(newColumn);
 
     res.status(201).json(newColumn);
   } catch (error) {
@@ -52,7 +74,10 @@ router.put("/reorder/all", authenticateToken, requireRole(["assigner"]), (req, r
 
     orderedIds.forEach((id, index) => {
       const col = columns.find((c) => c.id === id);
-      if (col) col.position = index;
+      if (col) {
+        col.position = index;
+        syncColumnToSupabase(col);
+      }
     });
 
     columns.sort((a, b) => a.position - b.position);
@@ -83,6 +108,7 @@ router.put("/:id", authenticateToken, requireRole(["assigner"]), (req, res) => {
     columns.forEach((c, i) => { c.position = i; });
 
     save();
+    syncColumnToSupabase(column);
     res.status(200).json(column);
   } catch (error) {
     res.status(500).json({ message: "Error updating column." });
@@ -111,6 +137,7 @@ router.delete("/:id", authenticateToken, requireRole(["assigner"]), (req, res) =
     }
 
     save();
+    deleteColumnFromSupabase(id);
     res.status(200).json({ message: "Column and its tasks deleted." });
   } catch (error) {
     res.status(500).json({ message: "Error deleting column." });
