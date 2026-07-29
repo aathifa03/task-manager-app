@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Navbar from "@/components/Navbar";
-import { subscribeToTasks, updateTask, moveTask } from "@/services/task.service";
+import { subscribeToTasks, moveTask } from "@/services/task.service";
 import { getColumns } from "@/services/column.service";
 import { Task, KanbanColumn } from "@/types";
 import KanbanBoard from "@/components/kanban/KanbanBoard";
@@ -15,6 +15,12 @@ export default function ViewerDashboard() {
   const { user } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [columns, setColumns] = useState<KanbanColumn[]>([]);
+
+  // Filter & Search States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "done">("all");
+  const [priorityFilter, setPriorityFilter] = useState<"all" | "high" | "medium" | "low">("all");
+  const [sortBy, setSortBy] = useState<"newest" | "dueDate" | "priority">("newest");
 
   // Selected Task for Detail Modal
   const [selectedDetailTask, setSelectedDetailTask] = useState<Task | null>(null);
@@ -69,6 +75,37 @@ export default function ViewerDashboard() {
   const pendingTasks = tasks.filter((t) => t.status === "pending").length;
   const completedTasks = tasks.filter((t) => t.status === "done").length;
 
+  // Filter & Search Logic
+  const filteredTasks = tasks.filter((task) => {
+    if (statusFilter !== "all" && task.status !== statusFilter) return false;
+    if (priorityFilter !== "all" && (task.priority || "medium") !== priorityFilter) return false;
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      const matchTitle = task.title.toLowerCase().includes(query);
+      const matchDesc = task.description.toLowerCase().includes(query);
+      if (!matchTitle && !matchDesc) return false;
+    }
+    return true;
+  });
+
+  // Sorting Logic
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    if (sortBy === "priority") {
+      const weight = { high: 3, medium: 2, low: 1 };
+      const pA = weight[a.priority || "medium"];
+      const pB = weight[b.priority || "medium"];
+      return pB - pA;
+    } else if (sortBy === "dueDate") {
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+    } else {
+      const tA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const tB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return tB - tA;
+    }
+  });
+
   return (
     <ProtectedRoute roles={["viewer"]}>
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300">
@@ -107,13 +144,72 @@ export default function ViewerDashboard() {
             </div>
           </section>
 
+          {/* Search, Sort & Filter Toolbar */}
+          <div className="space-y-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/60 p-3 shadow-2xs mb-4">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                placeholder="🔍 Search assigned issues..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/60 px-3 py-1.5 text-xs text-slate-900 dark:text-white outline-none focus:border-violet-500"
+              />
+
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/60 px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 outline-none cursor-pointer"
+              >
+                <option value="newest">Sort: Newest</option>
+                <option value="dueDate">Sort: Due Date</option>
+                <option value="priority">Sort: Priority</option>
+              </select>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-white/5 pt-2 text-[11px]">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-semibold text-slate-500">Status:</span>
+                {(["all", "pending", "done"] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setStatusFilter(filter)}
+                    className={`rounded-md px-2.5 py-0.5 text-[10px] font-bold capitalize transition cursor-pointer ${
+                      statusFilter === filter
+                        ? "bg-violet-600 text-white shadow-2xs"
+                        : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
+                    }`}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-semibold text-slate-500">Priority:</span>
+                {(["all", "high", "medium", "low"] as const).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPriorityFilter(p)}
+                    className={`rounded-md px-2.5 py-0.5 text-[10px] font-bold capitalize transition cursor-pointer ${
+                      priorityFilter === p
+                        ? "bg-blue-600 text-white shadow-2xs"
+                        : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Main View Area: Pure Kanban Board */}
           {isLoading ? (
             <div className="flex h-36 items-center justify-center rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/60">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 dark:border-slate-700 border-t-violet-500" />
             </div>
           ) : (
-            <KanbanBoard tasks={tasks} columns={columns} onMoveTask={handleMoveTask} />
+            <KanbanBoard tasks={sortedTasks} columns={columns} onMoveTask={handleMoveTask} />
           )}
         </main>
 
