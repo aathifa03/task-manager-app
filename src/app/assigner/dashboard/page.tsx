@@ -432,7 +432,14 @@ export default function AssignerDashboard() {
                   </form>
                 )}
               </div>
-              <KanbanBoard tasks={sortedTasks} columns={columns} onMoveTask={handleMoveTask} />
+              <KanbanBoard
+                tasks={sortedTasks}
+                columns={columns}
+                onMoveTask={handleMoveTask}
+                onClickTask={(task) => setSelectedDetailTask(task)}
+                onToggleStatus={handleToggleStatus}
+                onDelete={onRequestDeleteTask}
+              />
             </div>
           </section>
         </main>

@@ -14,6 +14,7 @@ interface KanbanColumnProps {
   onDelete?: (taskId: string) => void;
   onDeleteColumn?: (columnId: string) => void;
   onRenameColumn?: (columnId: string, title: string) => void;
+  onClickTask?: (task: Task) => void;
   showColumnControls?: boolean;
 }
 
@@ -25,6 +26,7 @@ export default function KanbanColumn({
   onDelete,
   onDeleteColumn,
   onRenameColumn,
+  onClickTask,
   showColumnControls = false,
 }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
@@ -130,6 +132,7 @@ export default function KanbanColumn({
               task={task}
               onToggleStatus={onToggleStatus}
               onDelete={onDelete}
+              onClickTask={onClickTask}
               isViewer={isViewer}
             />
           ))}

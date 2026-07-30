@@ -209,7 +209,13 @@ export default function ViewerDashboard() {
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 dark:border-slate-700 border-t-violet-500" />
             </div>
           ) : (
-            <KanbanBoard tasks={sortedTasks} columns={columns} onMoveTask={handleMoveTask} />
+            <KanbanBoard
+              tasks={sortedTasks}
+              columns={columns}
+              onMoveTask={handleMoveTask}
+              onClickTask={(task) => setSelectedDetailTask(task)}
+              isViewer={true}
+            />
           )}
         </main>
 

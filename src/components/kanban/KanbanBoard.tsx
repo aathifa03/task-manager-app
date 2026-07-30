@@ -27,6 +27,7 @@ interface KanbanBoardProps {
   onDelete?: (taskId: string) => void;
   onDeleteColumn?: (columnId: string) => void;
   onRenameColumn?: (columnId: string, title: string) => void;
+  onClickTask?: (task: Task) => void;
   showColumnControls?: boolean;
   addColumnButton?: React.ReactNode;
 }
@@ -40,6 +41,7 @@ export default function KanbanBoard({
   onDelete,
   onDeleteColumn,
   onRenameColumn,
+  onClickTask,
   showColumnControls = false,
   addColumnButton,
 }: KanbanBoardProps) {
@@ -178,6 +180,7 @@ export default function KanbanBoard({
             onDelete={onDelete}
             onDeleteColumn={onDeleteColumn}
             onRenameColumn={onRenameColumn}
+            onClickTask={onClickTask}
             showColumnControls={showColumnControls}
           />
         ))}

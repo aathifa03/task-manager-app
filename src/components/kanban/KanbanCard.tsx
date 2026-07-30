@@ -8,6 +8,7 @@ interface KanbanCardProps {
   task: Task;
   onToggleStatus?: (task: Task) => void;
   onDelete?: (taskId: string) => void;
+  onClickTask?: (task: Task) => void;
   isViewer?: boolean;
 }
 
@@ -15,6 +16,7 @@ export default function KanbanCard({
   task,
   onToggleStatus,
   onDelete,
+  onClickTask,
   isViewer = false,
 }: KanbanCardProps) {
   const {
@@ -98,7 +100,8 @@ export default function KanbanCard({
       style={style}
       {...attributes}
       {...listeners}
-      className={`group relative rounded-xl border p-3.5 shadow-2xs transition-all duration-200 cursor-grab active:cursor-grabbing hover:shadow-md ${
+      onClick={() => onClickTask && onClickTask(task)}
+      className={`group relative rounded-xl border p-3.5 shadow-2xs transition-all duration-200 cursor-pointer hover:shadow-md ${
         overdue
           ? "border-red-400 dark:border-red-500/50 bg-red-50/30 dark:bg-red-500/10"
           : dueSoon
