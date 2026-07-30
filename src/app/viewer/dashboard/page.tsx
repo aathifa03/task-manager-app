@@ -122,6 +122,68 @@ export default function ViewerDashboard() {
             </p>
           </div>
 
+          {/* Prominent Top Search & Filter Toolbar */}
+          <div className="space-y-2.5 rounded-xl border border-violet-200 dark:border-violet-500/20 bg-white dark:bg-slate-900/90 p-3.5 shadow-sm mb-4">
+            <div className="flex flex-col sm:flex-row gap-2.5">
+              <div className="relative flex-1">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search assigned issues by title or description..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/60 pl-8 pr-3 py-2 text-xs text-slate-900 dark:text-white outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+                />
+              </div>
+
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/60 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 outline-none cursor-pointer"
+              >
+                <option value="newest">Sort: Newest</option>
+                <option value="dueDate">Sort: Due Date</option>
+                <option value="priority">Sort: Priority</option>
+              </select>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-white/5 pt-2.5 text-xs">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-bold text-slate-500 text-[11px] uppercase tracking-wider">Status:</span>
+                {(["all", "pending", "done"] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setStatusFilter(filter)}
+                    className={`rounded-md px-3 py-1 text-xs font-bold capitalize transition cursor-pointer ${
+                      statusFilter === filter
+                        ? "bg-violet-600 text-white shadow-xs"
+                        : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10"
+                    }`}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-bold text-slate-500 text-[11px] uppercase tracking-wider">Priority:</span>
+                {(["all", "high", "medium", "low"] as const).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPriorityFilter(p)}
+                    className={`rounded-md px-3 py-1 text-xs font-bold capitalize transition cursor-pointer ${
+                      priorityFilter === p
+                        ? "bg-blue-600 text-white shadow-xs"
+                        : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Summary Stats */}
           <section className="grid gap-3 grid-cols-3 mb-5">
             <div className="rounded-xl border border-violet-200 dark:border-violet-500/20 bg-violet-50/50 dark:bg-violet-500/5 p-3 shadow-2xs">
@@ -144,64 +206,7 @@ export default function ViewerDashboard() {
             </div>
           </section>
 
-          {/* Search, Sort & Filter Toolbar */}
-          <div className="space-y-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/60 p-3 shadow-2xs mb-4">
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="text"
-                placeholder="🔍 Search assigned issues..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/60 px-3 py-1.5 text-xs text-slate-900 dark:text-white outline-none focus:border-violet-500"
-              />
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/60 px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 outline-none cursor-pointer"
-              >
-                <option value="newest">Sort: Newest</option>
-                <option value="dueDate">Sort: Due Date</option>
-                <option value="priority">Sort: Priority</option>
-              </select>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-white/5 pt-2 text-[11px]">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-semibold text-slate-500">Status:</span>
-                {(["all", "pending", "done"] as const).map((filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => setStatusFilter(filter)}
-                    className={`rounded-md px-2.5 py-0.5 text-[10px] font-bold capitalize transition cursor-pointer ${
-                      statusFilter === filter
-                        ? "bg-violet-600 text-white shadow-2xs"
-                        : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-semibold text-slate-500">Priority:</span>
-                {(["all", "high", "medium", "low"] as const).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => setPriorityFilter(p)}
-                    className={`rounded-md px-2.5 py-0.5 text-[10px] font-bold capitalize transition cursor-pointer ${
-                      priorityFilter === p
-                        ? "bg-blue-600 text-white shadow-2xs"
-                        : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
-                    }`}
-                  >
-                    {p}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+          {/* Main View Area: Pure Kanban Board */}
 
           {/* Main View Area: Pure Kanban Board */}
           {isLoading ? (
